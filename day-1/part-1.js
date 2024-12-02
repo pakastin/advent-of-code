@@ -1,11 +1,12 @@
 // parse data
-const data = (await Deno.readTextFile("data.txt")).split("\n").map((line) => {
-  return line.split("   ");
+const data = await Deno.readTextFile("data.txt");
+const lines = data.split("\n").map((line) => {
+  return line.split("   ").map((val) => Number(val));
 });
 
 // split to two arrays
-const arrayA = data.map(([a, b]) => a);
-const arrayB = data.map(([a, b]) => b);
+const arrayA = lines.map(([a, b]) => a);
+const arrayB = lines.map(([a, b]) => b);
 
 // sort both arrays
 arrayA.sort();
