@@ -9,7 +9,10 @@ const safe = lines.filter(
   (line) => checkLine(line) || checkLineWithDampening(line)
 );
 
+console.log(safe.length);
+
 function checkLineWithDampening(line) {
+  // check if one removal makes it safe
   for (let i = 0; i < line.length; i++) {
     if (checkLine(line.slice(0, i).concat(line.slice(i + 1)))) {
       return true;
@@ -42,5 +45,3 @@ function checkLine(line) {
   }
   return true;
 }
-
-console.log(safe.length);
