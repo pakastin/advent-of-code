@@ -1,5 +1,5 @@
 // parse data
-const data = (await Deno.readTextFile("data.txt")).split("\n").map((line) => {
+const data = (await Deno.readTextFile("1.txt")).split("\n").map((line) => {
   return line.split("   ");
 });
 
