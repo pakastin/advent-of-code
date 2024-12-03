@@ -3,7 +3,7 @@ const data = await Deno.readTextFile("./data.txt");
 
 let sum = 0;
 
-// split strings between "mul("
+// take strings between "mul("
 for (const mul of data.split("mul(").slice(1)) {
   // first number expected to be before ","
   const num1 = mul.split(",")[0];
