@@ -49,8 +49,9 @@
     for (let x = 0; x < data[y].length; x++) {
       const char = data[y][x];
       // if character is X, check all directions for XMAS
+      await new Promise(resolve => requestAnimationFrame(resolve));
+      chars[y][x].found || (chars[y][x].style.color = '#999');
       if (char === "X") {
-        await new Promise(resolve => setTimeout(resolve, 0));
         for (const direction of directions) {
           count += await checkDirection(data, chars, x, y, direction);
         }
@@ -68,25 +69,25 @@ async function checkDirection(data, chars, x, y, [vx, vy]) {
   const traversed = [];
 
   while (traverse) {
-    await new Promise(resolve => setTimeout(resolve, 0));
     traversed.push(chars[y][x]);
-    chars[y][x].style.color = '#000';
     buffer += traverse;
     if (!"XMAS".startsWith(buffer)) {
-      traversed.forEach(char => char.found || (char.style.color = '#999'));
       return 0;
     }
     if (buffer.length === 4) {
-      traversed.forEach(char => {
+      for (const char of traversed) {
         char.found = true;
-      });
+        char.style.color = '#000';
+      }
       return 1;
     }
     x += vx;
     y += vy;
     traverse = data[y]?.[x];
   }
-  traversed.forEach(char => char.found || (char.style.color = '#999'));
+  for (const char of traversed) {
+    char.found || (char.style.color = '#999');
+  }
   return 0;
 }
 
