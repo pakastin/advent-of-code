@@ -6,6 +6,8 @@
       font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
       font-size: .75rem;
       color: #ccc;
+      letter-spacing: 0.0625em;
+      line-height: 1;
     }
   </style>
 </head>
@@ -205,6 +207,7 @@ async function checkDirection(data, x, y, [vx, vy]) {
   const traversed = [];
 
   while (traverse) {
+    await new Promise(resolve => setTimeout(resolve, 0));
     traversed.push(chars[y][x]);
     chars[y][x].style.color = '#000';
     buffer += traverse;
@@ -215,7 +218,6 @@ async function checkDirection(data, x, y, [vx, vy]) {
     if (buffer.length === 4) {
       traversed.forEach(char => {
         char.found = true;
-        char.style.color = '#000';
       });
       return 1;
     }
