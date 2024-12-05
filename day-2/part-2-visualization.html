@@ -17,7 +17,6 @@
 <body>
 <script>
 (async () => {
-  // read data
   const data = (await fetch('data.txt').then(res => res.text())).split('\n');
 
   const lines = data
@@ -40,41 +39,59 @@
   // count safe
   for (let y = 0; y < lines.length; y++) {
     const line = lines[y];
-    let prevDiff;
-    for (let x = 0; x < line.length; x++) {
-      await new Promise(requestAnimationFrame);
+    const $charLine = $chars[y];
+    if (await checkLine(line, $charLine) || await checkLineWithDampening(line, $charLine)) {
+      $charLine.forEach($char => $char.style.color = '#090');
+    }
+  }
 
-      const $char = $chars[y][x]
-      const $prevChar = $chars[y][x - 1]
-      if (x === 0) {
-        $char.style.color = '#090';
-        continue;
+  async function checkLineWithDampening(line, $charLine) {
+    // check if one removal makes it safe
+    for (let i = 0; i < line.length; i++) {
+      if (await checkLine(line.slice(0, i).concat(line.slice(i + 1)), $charLine)) {
+        return true;
       }
+    }
+    return false;
+  }
+
+  async function checkLine(line, $charLine) {
+    let prevDiff;
+    for (let i = 1; i < line.length; i++) {
+      $charLine[i].style.color = '';
+
       // take two values
-      const value = line[x];
-      const prevValue = line[x - 1];
+      let value = line[i];
+      const prevValue = line[i - 1];
+      const $char = $charLine[i];
+      const $prevChar = $charLine[i - 1];
       const diff = value - prevValue;
       const absDiff = Math.abs(diff);
+
+      $char.style.backgroundColor = '#999';
+      await new Promise(requestAnimationFrame);
+      $char.style.backgroundColor = '';
 
       // shouldn't differ less than 1 or more than 3
       if (absDiff < 1 || absDiff > 3) {
         $char.style.color = '#f00';
         $prevChar.style.color = '#f00';
-        break;
+        return false;
       }
-
-      $char.style.color = '#090';
 
       // diffs should both be positive/negative
       if (prevDiff) {
         if (prevDiff * diff < 0) {
           $char.style.color = '#f00';
           $prevChar.style.color = '#f00';
-          break;
+          return false;
         }
       }
+      $char.style.color = '#090';
+      $prevChar.style.color = '#090';
       prevDiff = diff;
     }
+    return true;
   }
   })();
 </script>
