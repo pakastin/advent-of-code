@@ -65,7 +65,8 @@
         (topright === "M" && bottomleft === "S")
       ) {
         await new Promise(requestAnimationFrame);
-        chars[y][x].style.color = '#900';
+        chars[y][x].style.backgroundColor = '#f00';
+        chars[y][x].style.color = '#fff';
         await new Promise(requestAnimationFrame);
         chars[y - 1][x - 1].style.color = '#f00';
         chars[y - 1][x + 1].style.color = '#f00';
