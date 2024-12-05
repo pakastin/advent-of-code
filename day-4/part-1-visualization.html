@@ -78,7 +78,12 @@ async function checkDirection(data, chars, x, y, [vx, vy]) {
     }
     if (buffer.length === 4) {
       for (let i = 0; i < traversed.length; i++) {
-        traversed[i].style.color = i ? '#f00' : '#900';
+        if (i) {
+          traversed[i].style.color = '#f00';
+        } else {
+          traversed[i].style.backgroundColor = '#f00';
+          traversed[i].style.color = '#fff';
+        }
         await new Promise(resolve => requestAnimationFrame(resolve));
       }
       return 1;
