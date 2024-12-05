@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+      font-size: .75rem;
+      letter-spacing: 0.125em;
+      line-height: 1;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (async () => {
+      // read data
+      const data = (await fetch('data.txt').then(res => res.text())).split('\n');
+
+      const $lines = [];
+      const lookup = {};
+      let sum = 0;
+
+      for (const line of data) {
+        const [left, right] = line.split("|");
+
+        // if there's ordering rules (x|y), add to lookup
+        if (left && right) {
+          lookup[left] || (lookup[left] = {});
+          lookup[left][right] = true;
+        } else if (line) {
+          const $line = document.createElement('p');
+          document.body.appendChild($line);
+          $line.textContent = line;
+          await new Promise(resolve => setTimeout(resolve, 100));
+          // otherwise, check the line and sum up (wrong order gives zero)
+          const result = await checkNumbers($line, lookup, line.split(","));
+          $line.textContent = line;
+          await new Promise(resolve => setTimeout(resolve, 50));
+          sum += result;
+        }
+      }
+
+      // print out result
+      console.log(sum);
+
+      async function checkNumbers($line, lookup, numbers) {
+        // iterate left and right pairs
+        for (let left = 0; left < numbers.length - 1; left++) {
+          for (let right = left + 1; right < numbers.length; right++) {
+            const numberLeft = numbers[left];
+            const numberRight = numbers[right];
+
+            // switch places if in wrong order
+            if (!lookup[numberLeft]?.[numberRight]) {
+              $line.innerHTML = numbers.map((number, i) => {
+                if (i === left || i === right) {
+                  return `<span style="background-color: #666; color: #fff;">${number}</span>`;
+                }
+                return number;
+              }).join(',');
+              await new Promise(resolve => setTimeout(resolve, 50));
+
+              numbers[left] = numberRight;
+              numbers[right] = numberLeft;
+
+              $line.innerHTML = numbers.map((number, i) => {
+                if (i === left || i === right) {
+                  return `<span style="background-color: #666; color: #fff;">${number}</span>`;
+                }
+                return number;
+              }).join(',');
+              await new Promise(resolve => setTimeout(resolve, 50));
+
+              // run again when not in order
+              await checkNumbers($line, lookup, numbers);
+
+              // after fixing, return middle number
+              return Number(numbers[Math.floor(numbers.length / 2)]);
+            }
+          }
+        }
+
+        // was in order, return zero
+        return 0;
+      }
+    })();
+  </script>
+</html>

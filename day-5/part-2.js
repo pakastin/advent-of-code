@@ -21,7 +21,7 @@ for (const line of data) {
 // print out result
 console.log(sum);
 
-function checkNumbers(lookup, numbers, depth = 0) {
+function checkNumbers(lookup, numbers) {
   // iterate left and right pairs
   for (let left = 0; left < numbers.length - 1; left++) {
     for (let right = left + 1; right < numbers.length; right++) {
@@ -34,7 +34,7 @@ function checkNumbers(lookup, numbers, depth = 0) {
         numbers[right] = numberLeft;
 
         // run again when not in order
-        checkNumbers(lookup, numbers, depth + 1);
+        checkNumbers(lookup, numbers);
 
         // after fixing, return middle number
         return Number(numbers[Math.floor(numbers.length / 2)]);
