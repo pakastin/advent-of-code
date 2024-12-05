@@ -7,7 +7,7 @@
       font-size: .75rem;
       letter-spacing: 0.125em;
       line-height: 1;
-      color: #666;
+      color: #999;
     }
   </style>
 </head>
@@ -37,6 +37,7 @@
           const lineNumbers = line.split(',');
           const result = await checkNumbers($line, lookup, lineNumbers);
           $line.textContent = lineNumbers.join(',');
+          $line.style.color = '#f00';
           await new Promise(requestAnimationFrame);
           sum += result;
         }
@@ -55,8 +56,11 @@
             // switch places if in wrong order
             if (!lookup[numberLeft]?.[numberRight]) {
               $line.innerHTML = numbers.map((number, i) => {
+                if (i < left) {
+                  return `<span style="color: #f00;">${number}</span>`;
+                }
                 if (i === left || i === right) {
-                  return `<span style="background-color: #666; color: #fff;">${number}</span>`;
+                  return `<span style="background-color: #f00; color: #fff;">${number}</span>`;
                 }
                 return number;
               }).join(',');
@@ -66,8 +70,11 @@
               numbers[right] = numberLeft;
 
               $line.innerHTML = numbers.map((number, i) => {
+                if (i < left) {
+                  return `<span style="color: #f00;">${number}</span>`;
+                }
                 if (i === left || i === right) {
-                  return `<span style="background-color: #666; color: #fff;">${number}</span>`;
+                  return `<span style="background-color: #f00; color: #fff;">${number}</span>`;
                 }
                 return number;
               }).join(',');
