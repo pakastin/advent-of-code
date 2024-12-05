@@ -37,6 +37,10 @@
     for (let x = 0; x < data[y].length; x++) {
       const char = data[y][x];
       // if character is A, check all directions for MAS and SAM
+        await new Promise(requestAnimationFrame);
+        if (!chars[y][x].style.color) {
+          chars[y][x].style.color = '#999';
+        }
       if (char === "A") {
         count += await check(data, x, y);
       }

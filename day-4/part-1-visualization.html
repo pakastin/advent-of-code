@@ -49,7 +49,9 @@
     for (let x = 0; x < data[y].length; x++) {
       const char = data[y][x];
       // if character is X, check all directions for XMAS
-      chars[y][x].found || (chars[y][x].style.color = '#888');
+      if (!chars[y][x].style.color) {
+        (chars[y][x].style.color = '#999');
+      }
       if (char === "X") {
         for (const direction of directions) {
           count += await checkDirection(data, chars, x, y, direction);
@@ -75,9 +77,8 @@ async function checkDirection(data, chars, x, y, [vx, vy]) {
       return 0;
     }
     if (buffer.length === 4) {
-      for (const char of traversed) {
-        char.found = true;
-        char.style.color = '#000';
+      for (let i = 0; i < traversed.length; i++) {
+        traversed[i].style.color = i ? '#f00' : '#900';
         await new Promise(resolve => requestAnimationFrame(resolve));
       }
       return 1;
