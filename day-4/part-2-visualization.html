@@ -30,8 +30,6 @@
     chars.push(line);
   }
 
-  let count = 0;
-
   // go through all cells
   for (let y = 0; y < data.length; y++) {
     for (let x = 0; x < data[y].length; x++) {
@@ -42,13 +40,10 @@
           chars[y][x].style.color = '#999';
         }
       if (char === "A") {
-        count += await check(data, x, y);
+        await check(data, x, y);
       }
     }
   }
-
-  // print out result
-  console.log(count);
 
   async function check(data, x, y) {
     const topleft = data[y - 1]?.[x - 1];

@@ -19,7 +19,6 @@
 
       const $lines = [];
       const lookup = {};
-      let sum = 0;
 
       for (const line of data) {
         const [left, right] = line.split("|");
@@ -39,12 +38,8 @@
           $line.textContent = lineNumbers.join(',');
           $line.style.color = '#f00';
           await new Promise(requestAnimationFrame);
-          sum += result;
         }
       }
-
-      // print out result
-      console.log(sum);
 
       async function checkNumbers($line, lookup, numbers) {
         // iterate left and right pairs

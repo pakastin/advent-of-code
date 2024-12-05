@@ -28,8 +28,6 @@
     [1, 1],
   ];
 
-  let count = 0;
-
   const chars = [];
 
   for (let y = 0; y < data.length; y++) {
@@ -54,15 +52,12 @@
       }
       if (char === "X") {
         for (const direction of directions) {
-          count += await checkDirection(data, chars, x, y, direction);
+          await checkDirection(data, chars, x, y, direction);
         }
       }
       await new Promise(resolve => requestAnimationFrame(resolve));
     }
   }
-
-  // print out result
-  console.log(count);
 })();
 
 async function checkDirection(data, chars, x, y, [vx, vy]) {

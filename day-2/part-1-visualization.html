@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+      font-size: .75rem;
+      color: #999;
+      letter-spacing: 0.125em;
+      line-height: 1;
+    }
+    span {
+      margin-right: .5em;
+    }
+  </style>
+</head>
+<body>
+<script>
+(async () => {
+  // read data
+  const data = (await fetch('data.txt').then(res => res.text())).split('\n');
+
+  const lines = data
+    .map((line) => line.split(" ").map((val) => Number(val)));
+
+  const $chars = [];
+
+  for (const line of data) {
+    const $charLine = [];
+    for (const char of line.split(' ')) {
+      const $char = document.createElement('span');
+      $char.textContent = char.padStart(2, '0');
+      document.body.appendChild($char);
+      $charLine.push($char);
+    }
+    $chars.push($charLine);
+    document.body.appendChild(document.createElement('br'));
+  }
+
+  // count safe
+  for (let y = 0; y < lines.length; y++) {
+    const line = lines[y];
+    let prevDiff;
+    for (let x = 0; x < line.length; x++) {
+      const $char = $chars[y][x]
+      const $prevChar = $chars[y][x - 1]
+      if (x === 0) {
+        $char.style.color = '#090';
+        continue;
+      }
+      // take two values
+      const value = line[x];
+      const prevValue = line[x - 1];
+      const diff = value - prevValue;
+      const absDiff = Math.abs(diff);
+
+      await new Promise(requestAnimationFrame);
+
+      // shouldn't differ less than 1 or more than 3
+      if (absDiff < 1 || absDiff > 3) {
+        $char.style.color = '#f00';
+        $prevChar.style.color = '#f00';
+        break;
+      }
+
+      $char.style.color = '#090';
+
+      // diffs should both be positive/negative
+      if (prevDiff) {
+        if (prevDiff * diff < 0) {
+          $char.style.color = '#f00';
+          $prevChar.style.color = '#f00';
+          break;
+        }
+      }
+      prevDiff = diff;
+    }
+  }
+  })();
+</script>
+</body>
+</html>
