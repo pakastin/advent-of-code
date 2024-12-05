@@ -35,8 +35,6 @@
           // otherwise, check the line and sum up (wrong order gives zero)
           const lineNumbers = line.split(',');
           const result = await checkNumbers($line, lookup, lineNumbers);
-          $line.textContent = lineNumbers.join(',');
-          $line.style.color = '#f00';
           await new Promise(requestAnimationFrame);
         }
       }
@@ -52,10 +50,10 @@
             if (!lookup[numberLeft]?.[numberRight]) {
               $line.innerHTML = numbers.map((number, i) => {
                 if (i < left) {
-                  return `<span style="color: #f00;">${number}</span>`;
+                  return `<span style="color: #090;">${number}</span>`;
                 }
                 if (i === left || i === right) {
-                  return `<span style="background-color: #f00; color: #fff;">${number}</span>`;
+                  return `<span style="background-color: #999; color: #fff;">${number}</span>`;
                 }
                 return number;
               }).join(',');
@@ -66,10 +64,10 @@
 
               $line.innerHTML = numbers.map((number, i) => {
                 if (i < left) {
-                  return `<span style="color: #f00;">${number}</span>`;
+                  return `<span style="color: #090;">${number}</span>`;
                 }
                 if (i === left || i === right) {
-                  return `<span style="background-color: #f00; color: #fff;">${number}</span>`;
+                  return `<span style="background-color: #999; color: #fff;">${number}</span>`;
                 }
                 return number;
               }).join(',');
@@ -79,7 +77,15 @@
               await checkNumbers($line, lookup, numbers);
 
               // after fixing, return middle number
-              return Number(numbers[Math.floor(numbers.length / 2)]);
+              const middle = Math.floor(numbers.length / 2);
+              $line.innerHTML = `<span style="color: #090;">${numbers.map((number, i) => {
+                if (i === middle) {
+                  return `<span style="color: #222;">${number}</span>`;
+                } else {
+                  return number;
+                }
+              })}</span>`;
+              return Number(numbers[middle]);
             }
           }
         }
