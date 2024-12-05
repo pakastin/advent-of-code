@@ -27,12 +27,15 @@ function checkNumbers(lookup, numbers, depth = 0) {
     for (let right = left + 1; right < numbers.length; right++) {
       const numberLeft = numbers[left];
       const numberRight = numbers[right];
+
       // switch places if in wrong order
       if (!lookup[numberLeft]?.[numberRight]) {
         numbers[left] = numberRight;
         numbers[right] = numberLeft;
+
         // run again when not in order
         checkNumbers(lookup, numbers, depth + 1);
+
         // after fixing, return middle number
         return Number(numbers[Math.floor(numbers.length / 2)]);
       }

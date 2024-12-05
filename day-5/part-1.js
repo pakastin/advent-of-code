@@ -29,6 +29,7 @@ function checkLine(lookup, line) {
     for (let right = left + 1; right < numbers.length; right++) {
       const numberLeft = numbers[left];
       const numberRight = numbers[right];
+
       // if there's no rule, return 0
       if (!lookup[numberLeft]?.[numberRight]) {
         return 0;
