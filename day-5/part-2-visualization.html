@@ -32,12 +32,12 @@
           const $line = document.createElement('p');
           document.body.appendChild($line);
           $line.textContent = line;
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(requestAnimationFrame);
           // otherwise, check the line and sum up (wrong order gives zero)
           const lineNumbers = line.split(',');
           const result = await checkNumbers($line, lookup, lineNumbers);
           $line.textContent = lineNumbers.join(',');
-          await new Promise(resolve => setTimeout(resolve, 50));
+          await new Promise(requestAnimationFrame);
           sum += result;
         }
       }
@@ -60,7 +60,7 @@
                 }
                 return number;
               }).join(',');
-              await new Promise(resolve => setTimeout(resolve, 50));
+              await new Promise(requestAnimationFrame);
 
               numbers[left] = numberRight;
               numbers[right] = numberLeft;
@@ -71,7 +71,7 @@
                 }
                 return number;
               }).join(',');
-              await new Promise(resolve => setTimeout(resolve, 50));
+              await new Promise(requestAnimationFrame);
 
               // run again when not in order
               await checkNumbers($line, lookup, numbers);
