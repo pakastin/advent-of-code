@@ -47,30 +47,27 @@ console.log(steps);
 
 Deno.writeTextFile("data2.txt", map.map((line) => line.join("")).join("\n"));
 
-async function step(map, hero, count = 0) {
-  if (count % 2000 === 0) {
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  }
-  const { x, y, dir } = hero;
-  const [dx, dy] = dirs[dir];
-  const nextCell = map[hero.y + dy]?.[hero.x + dx];
+async function step(map, hero) {
+  while (true) {
+    const { x, y, dir } = hero;
+    const [dx, dy] = dirs[dir];
+    const nextCell = map[hero.y + dy]?.[hero.x + dx];
 
-  // mark cell visited
-  map[y][x] = "X";
+    // mark cell visited
+    map[y][x] = "X";
 
-  // if next cell outside the map, stop
-  if (!nextCell) {
-    return;
-  }
+    // if next cell outside the map, stop
+    if (!nextCell) {
+      return;
+    }
 
-  // if next cell is obstructed, turn right
-  if (nextCell === "#") {
-    hero.dir = (dir + 1) % 4;
-  } else {
-    // else, walk one step
-    hero.x = x + dx;
-    hero.y = y + dy;
+    // if next cell is obstructed, turn right
+    if (nextCell === "#") {
+      hero.dir = (dir + 1) % 4;
+    } else {
+      // else, walk one step
+      hero.x = x + dx;
+      hero.y = y + dy;
+    }
   }
-  // next step
-  return await step(map, hero, count + 1);
 }
