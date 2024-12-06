@@ -14,7 +14,6 @@
 <body>
   <script>
     (async () => {
-      // read data
       const map = (await fetch('data.txt').then(res => res.text())).split('\n').map(line => line.split(''));
 
       const hero = {};
