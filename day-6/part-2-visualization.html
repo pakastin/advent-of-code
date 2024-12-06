@@ -66,7 +66,7 @@
       async function detectLoop(map, hero, visited = {}) {
         document.body.innerHTML = map.map((line, y) => line.map((char, x) => {
           if (visited[y]?.[x]) {
-            return '#';
+            return 'X';
           } else {
             return char;
           }
