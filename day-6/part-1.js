@@ -27,7 +27,7 @@ for (let y = 0; y < map.length; y++) {
 }
 
 // walk the map
-await step(map, hero);
+await walk(map, hero);
 
 // count steps (X)
 let steps = 0;
@@ -47,7 +47,7 @@ console.log(steps);
 
 Deno.writeTextFile("data2.txt", map.map((line) => line.join("")).join("\n"));
 
-async function step(map, hero) {
+async function walk(map, hero) {
   while (true) {
     const { x, y, dir } = hero;
     const [dx, dy] = dirs[dir];
