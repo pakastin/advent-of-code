@@ -39,24 +39,25 @@
 
       await step(map, hero);
       
-      async function step(map, hero, history = []) {
-        document.body.innerHTML = map.map(line => line.join('')).join('<br>');
-        await new Promise(requestAnimationFrame);
-        const [dx, dy] = dirs[hero.dir];
-        const nextCell = map[hero.y + dy]?.[hero.x + dx];
+      async function step(map, hero) {
+        while (true) {
+          document.body.innerHTML = map.map(line => line.join('')).join('<br>');
+          await new Promise(requestAnimationFrame);
+          const [dx, dy] = dirs[hero.dir];
+          const nextCell = map[hero.y + dy]?.[hero.x + dx];
 
-        map[hero.y][hero.x] = "X";
+          map[hero.y][hero.x] = "X";
 
-        if (!nextCell) {
-          return history;
+          if (!nextCell) {
+            return;
+          }
+          if (nextCell === "#") {
+            hero.dir = (hero.dir + 1) % 4;
+          } else {
+            hero.x = hero.x + dx;
+            hero.y = hero.y + dy;
+          }
         }
-        if (nextCell === "#") {
-          hero.dir = (hero.dir + 1) % 4;
-        } else {
-          hero.x = hero.x + dx;
-          hero.y = hero.y + dy;
-        }
-        return await step(map, hero, history);
       }
 
     })();
