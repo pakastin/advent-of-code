@@ -45,10 +45,14 @@ for (let y = 0; y < map.length; y++) {
 // print out the answer
 console.log(steps);
 
-async function step(map, hero) {
-  await new Promise((resolve) => setTimeout(resolve, 0));
-  const { x, y } = hero;
-  const [dx, dy] = dirs[hero.dir];
+Deno.writeTextFile("data2.txt", map.map((line) => line.join("")).join("\n"));
+
+async function step(map, hero, count = 0) {
+  if (count % 2000 === 0) {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  const { x, y, dir } = hero;
+  const [dx, dy] = dirs[dir];
   const nextCell = map[hero.y + dy]?.[hero.x + dx];
 
   // mark cell visited
@@ -61,12 +65,12 @@ async function step(map, hero) {
 
   // if next cell is obstructed, turn right
   if (nextCell === "#") {
-    hero.dir = (hero.dir + 1) % 4;
+    hero.dir = (dir + 1) % 4;
   } else {
     // else, walk one step
     hero.x = x + dx;
     hero.y = y + dy;
   }
   // next step
-  return await step(map, hero);
+  return await step(map, hero, count + 1);
 }
