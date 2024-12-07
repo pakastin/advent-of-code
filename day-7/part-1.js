@@ -15,7 +15,7 @@ for (const line of data) {
 
     let result = numbers[0];
     for (let i = 0; i < numbers.length - 1; i++) {
-      if (operations[i] === "1") {
+      if (operations[i] === "0") {
         result += numbers[i + 1];
       } else {
         result *= numbers[i + 1];
