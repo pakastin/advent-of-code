@@ -1,4 +1,3 @@
-// read map
 const data = (await Deno.readTextFile("./data.txt"))
   .split("\n")
   .map((line) => [...line]);

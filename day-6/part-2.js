@@ -1,15 +1,12 @@
-// read map
 const map = (await Deno.readTextFile("./data.txt")).split("\n").map((line) => {
   return line.split("");
 });
-// read solved map
 const map2 = (await Deno.readTextFile("./data2.txt"))
   .split("\n")
   .map((line) => {
     return line.split("");
   });
 
-// define directions
 const dirs = [
   [0, -1],
   [1, 0],
@@ -17,7 +14,6 @@ const dirs = [
   [-1, 0],
 ];
 
-// find hero
 const hero = {};
 
 for (let y = 0; y < map.length; y++) {
@@ -34,7 +30,6 @@ for (let y = 0; y < map.length; y++) {
 
 const visited = {};
 
-// count possible loops
 let loops = 0;
 
 for (let y = 0; y < map.length; y++) {
@@ -63,25 +58,20 @@ async function detectLoop(map, hero, visited = {}, count = 0) {
     const hasVisited = visited[y]?.[x]?.[dir];
 
     if (hasVisited) {
-      // if already visited position facing same dir, return true
       return true;
     }
 
-    // mark down visited position and dir
     visited[y] || (visited[y] = {});
     visited[y][x] || (visited[y][x] = []);
     visited[y][x][dir] = true;
 
-    // if next cell outside the map, stop
     if (!nextCell) {
       return false;
     }
 
-    // if next cell is obstructed, turn right
     if (nextCell === "#") {
       hero.dir = (dir + 1) % 4;
     } else {
-      // else, walk one step
       hero.x = x + dx;
       hero.y = y + dy;
     }
