@@ -26,17 +26,28 @@ for (const frequency in lookup) {
       const distX = leftX - rightX;
       const distY = leftY - rightY;
 
-      const x1 = leftX - distX * 2;
-      const y1 = leftY - distY * 2;
+      let x1 = leftX;
+      let y1 = leftY;
 
-      const x2 = rightX + distX * 2;
-      const y2 = rightY + distY * 2;
+      while (data[y1]?.[x1]) {
+        if (data[y1][x1] === ".") {
+          data[y1][x1] = "#";
+        }
 
-      if (data[y1]?.[x1]) {
-        data[y1][x1] = "#";
+        x1 -= distX;
+        y1 -= distY;
       }
-      if (data[y2]?.[x2]) {
-        data[y2][x2] = "#";
+
+      let x2 = rightX;
+      let y2 = rightY;
+
+      while (data[y2]?.[x2]) {
+        if (data[y2][x2] === ".") {
+          data[y2][x2] = "#";
+        }
+
+        x2 += distX;
+        y2 += distY;
       }
     }
   }
@@ -46,7 +57,7 @@ let locations = 0;
 
 for (const line of data) {
   for (const char of line) {
-    if (char === "#") {
+    if (char !== ".") {
       locations++;
     }
   }
