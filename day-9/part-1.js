@@ -1,12 +1,12 @@
-const data = await Deno.readTextFile("data.txt");
+const disk = await Deno.readTextFile("data.txt");
 let parsed = [];
 let checksum = 0;
 
-for (let i = 0; i < data.length; i += 2) {
-  const file = Number(data[i]);
-  const space = Number(data[i + 1]);
+for (let i = 0; i < disk.length; i += 2) {
+  const data = Number(disk[i]);
+  const space = Number(disk[i + 1]);
   const id = i / 2;
-  parsed = parsed.concat(repeat(file, id));
+  parsed = parsed.concat(repeat(data, id));
   if (space) {
     parsed = parsed.concat(repeat(space, "."));
   }
@@ -14,12 +14,12 @@ for (let i = 0; i < data.length; i += 2) {
 
 console.log(parsed.join(""));
 
-const freeBlocks = [];
+const emptyBlocks = [];
 const dataBlocks = [];
 
 for (let i = 0; i < parsed.length; i++) {
   if (parsed[i] === ".") {
-    freeBlocks.push(i);
+    emptyBlocks.push(i);
   } else {
     dataBlocks.push(i);
   }
@@ -31,7 +31,7 @@ let left = 0;
 let right = dataBlocks.length - 1;
 
 while (true) {
-  const freeBlock = freeBlocks[left++];
+  const freeBlock = emptyBlocks[left++];
   const dataBlock = dataBlocks[right--];
 
   if (freeBlock > dataBlock || freeBlock == null || dataBlock == null) {
@@ -42,7 +42,7 @@ while (true) {
   parsed[dataBlock] = ".";
 }
 
-console.log(parsed.join(""));
+console.log(parsed);
 
 for (let i = 0; i < parsed.length; i++) {
   if (parsed[i] === ".") {
