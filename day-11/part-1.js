@@ -1,4 +1,4 @@
-const data = await Deno.readTextFile("sample.txt");
+const data = await Deno.readTextFile("data.txt");
 
 let numbers = data.split(" ").map((str) => Number(str));
 
