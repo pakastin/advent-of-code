@@ -9,10 +9,11 @@ for (const line of data.split("\n").filter((str) => str)) {
   const dir = line[0];
   const num = Number(line.slice(1));
   if (dir === "R") {
-    value = (value + num) % 100;
+    value = value + num;
   } else if (dir === "L") {
-    value = (value - num) % 100;
+    value = value - num;
   }
+  value = ((value % 100) + 100) % 100;
   if (value === 0) {
     zeros++;
   }
