@@ -1,10 +1,11 @@
 import { readFile } from "node:fs/promises";
 
 const data = await readFile("data.txt", "utf8");
+const lines = data.split("\n").filter((str) => str);
 
 let sum = 0;
 
-for (let line of data.split("\n").filter((str) => str)) {
+for (let line of lines) {
   const bank = line.split("").map((str) => Number(str));
   for (let i = 0; i < bank.length - 1; i++) {
     const value = bank[i];
