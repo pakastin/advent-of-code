@@ -4,10 +4,7 @@ const data = await readFile("data.txt", "utf8");
 
 let sum = 0;
 
-for (let line of data.split("\n")) {
-  if (!line) {
-    continue;
-  }
+for (let line of data.split("\n").filter((str) => str)) {
   const bank = line.split("").map((str) => Number(str));
   for (let i = 0; i < bank.length - 1; i++) {
     const value = bank[i];
