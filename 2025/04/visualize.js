@@ -3,6 +3,7 @@ const button = document.querySelector("button");
 const pre = document.querySelector("pre");
 
 button.addEventListener("click", async () => {
+  button.disabled = true;
   const lines = textarea.value.split("\n").filter((_) => _);
   let grid = new Map();
 
@@ -57,6 +58,7 @@ button.addEventListener("click", async () => {
     }
     await new Promise((response) => setTimeout(response, 500));
   }
+  button.disabled = false;
 });
 
 function cloneGrid(grid) {
