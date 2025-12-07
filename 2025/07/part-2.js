@@ -5,9 +5,7 @@ const lines = (await readFile("data.txt", "utf8"))
   .split("\n")
   .map((line) => line.split(""));
 
-let splits = 0;
-
-let beams = new Array(lines[0].length).fill(0);
+const beams = new Array(lines[0].length).fill(0);
 
 for (let y = 0; y < lines.length; y++) {
   const line = lines[y];
