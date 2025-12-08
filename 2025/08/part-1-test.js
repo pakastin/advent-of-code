@@ -47,33 +47,7 @@ for (const link of topLinks) {
   const left = link.a;
   const right = link.b;
 
-  if (left.root) {
-    if (right.root !== left.root) {
-      if (right.root) {
-        topNodes
-          .filter((node) => node.root === right.root)
-          .forEach((node) => {
-            node.parent = left.root;
-          });
-      } else {
-        right.parent = left.root;
-      }
-    }
-  } else if (right.root) {
-    if (left.root !== right.root) {
-      if (left.root) {
-        topNodes
-          .filter((node) => node.root === left.root)
-          .forEach((node) => {
-            node.parent = right.root;
-          });
-      } else {
-        left.parent = right.root;
-      }
-    }
-  } else {
-    right.parent = left;
-  }
+  connect(left, right);
 }
 
 const rootLookup = {};
@@ -103,4 +77,34 @@ function dist3d(a, b) {
   const dz = b.z - a.z;
 
   return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2));
+}
+
+function connect(a, b) {
+  if (a.root) {
+    if (b.root !== a.root) {
+      if (b.root) {
+        topNodes
+          .filter((node) => node.root === b.root)
+          .forEach((node) => {
+            node.parent = a.root;
+          });
+      } else {
+        b.parent = a.root;
+      }
+    }
+  } else if (b.root) {
+    if (a.root !== b.root) {
+      if (a.root) {
+        topNodes
+          .filter((node) => node.root === a.root)
+          .forEach((node) => {
+            node.parent = b.root;
+          });
+      } else {
+        a.parent = b.root;
+      }
+    }
+  } else {
+    b.parent = a;
+  }
 }
