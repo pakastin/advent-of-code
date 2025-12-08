@@ -1,8 +1,10 @@
 import { readFile } from "node:fs/promises";
 import Node from "./node.js";
 
+const TEST = process.env.TEST;
+
 let id = 1;
-const nodes = (await readFile("data.txt", "utf8"))
+const nodes = (await readFile(TEST ? "test.txt" : "data.txt", "utf8"))
   .trim()
   .split("\n")
   .map((line) => {
@@ -31,7 +33,7 @@ links.sort((a, b) => {
 
 const nodeLookup = {};
 
-const topLinks = links.slice(0, 1000);
+const topLinks = links.slice(0, TEST ? 10 : 1000);
 
 for (const link of topLinks) {
   const left = link.a;
